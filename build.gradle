@@ -1,0 +1,17 @@
+apply plugin: 'groovy'
+
+file('gradle.d').list().each {
+    it.endsWith('.gradle') && apply(from: "gradle.d/$it")
+}
+
+group = 'org.taosha.gradle'
+version = '0.1.0'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile localGroovy()
+    compile gradleApi()
+}

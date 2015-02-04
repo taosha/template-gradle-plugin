@@ -1,0 +1,30 @@
+buildscript {
+    repositories {
+        mavenLocal()
+    }
+    dependencies {
+        classpath 'org.taosha.gradle:template-gradle-plugin:0.1.+'
+    }
+}
+
+apply plugin: 'groovy'
+apply plugin: 'org.taosha.template'
+
+template {
+    [byte, short, int].each {
+        generate(
+                template: 'src/main/templates/range.tpl',
+                data: [it: it.name],
+                output: "build/generated/source/groovy/taosha/lang/${it.name.capitalize()}Range.groovy"
+        )
+    }
+}
+
+sourceSets.main.groovy.srcDir 'build/generated/source/groovy/'
+
+compileGroovy.dependsOn(generate)
+
+dependencies {
+    compile localGroovy()
+}
+
